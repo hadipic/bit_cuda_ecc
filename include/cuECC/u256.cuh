@@ -334,16 +334,26 @@ __forceinline__ __device__ void u256PowModP(u64 output[4], const u64 a[4],
   u256Copy(output, result);
 }
 
-__forceinline__ __device__ void u256InvModP(u64 output[4], const u64 a[4],
-                                            const u64 p[4]) {
-  u64 result[4];
-  u64 pMinus2[4] = {0};
+// __forceinline__ __device__ void u256InvModP(u64 output[4], const u64 a[4],
+//                                             const u64 p[4]) {
+//   u64 result[4];
+//   u64 pMinus2[4] = {0};
 
-  u256Sub(pMinus2, p, (u64[4]){2});
+//   u256Sub(pMinus2, p, (u64[4]){2});
 
-  u256PowModP(result, a, pMinus2, p);
+//   u256PowModP(result, a, pMinus2, p);
 
-  u256Copy(output, result);
+//   u256Copy(output, result);
+// }
+
+__forceinline__ __device__ void u256InvModP(u64 output[4], const u64 a[4], const u64 p[4]) {
+    u64 result[4];
+    u64 pMinus2[4] = {0};
+    u64 two[4] = {2, 0, 0, 0};  // مقدار 2 به‌صورت u64[4]
+    u256Sub(pMinus2, p, two);   // به‌جای (u64[4]){2}
+    u256PowModP(result, a, pMinus2, p);
+    u256Copy(output, result);
 }
+
 
 #endif

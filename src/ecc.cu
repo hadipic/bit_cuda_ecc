@@ -1,5 +1,11 @@
-#include "secp256k1.cuh"
-#include "ecc.cuh"
+// #include "secp256k1.cuh"
+// #include "ecc.cuh"
+// #include <cuda.h>
+// #include <cuda_runtime_api.h>
+// #include <stdio.h>
+
+#include "..\include\cuECC\secp256k1.cuh"
+#include "..\include\cuECC\ecc.cuh"
 #include <cuda.h>
 #include <cuda_runtime_api.h>
 #include <stdio.h>

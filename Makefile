@@ -10,8 +10,8 @@ LFLAGS = -L"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.8/lib/x64" -l
 OBJDIR = obj
 
 # Source files
-SOURCES = main.cpp src/bit_cuda_ecc.cu src/ecc.cu
-OBJECTS = $(patsubst %.cpp,$(OBJDIR)/%.o,$(filter %.cpp,$(SOURCES))) $(patsubst %.cu,$(OBJDIR)/%.o,$(filter %.cu,$(SOURCES)))
+SOURCES = src/bit_cuda_ecc.cu src/ecc.cu
+OBJECTS = $(patsubst %.cu,$(OBJDIR)/%.o,$(SOURCES))
 
 # Target
 TARGET = bit_cuda_ecc.exe
@@ -20,14 +20,11 @@ TARGET = bit_cuda_ecc.exe
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CXX) $(OBJECTS) $(LFLAGS) -o $(TARGET)
-
-$(OBJDIR)/%.o: %.cpp
-	-@if not exist $(OBJDIR) mkdir $(OBJDIR) 2>NUL
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(NVCC) $(OBJECTS) $(LFLAGS) -o $(TARGET)
 
 $(OBJDIR)/%.o: %.cu
-	-@if not exist $(OBJDIR) mkdir $(OBJDIR) 2>NUL
+	@mkdir $(OBJDIR) 2>NUL || echo "Directory $(OBJDIR) already exists or cannot be created"
+	@mkdir $(OBJDIR)\src 2>NUL || echo "Directory $(OBJDIR)\src already exists or cannot be created"
 	$(NVCC) $(NVCCFLAGS) -c $< -o $@
 
 clean:
