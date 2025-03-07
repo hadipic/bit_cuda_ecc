@@ -1,7 +1,7 @@
 #ifndef __LIBSECP256K1_CUH
 #define __LIBSECP256K1_CUH
 
-#include "curve/point.cuh"
+#include "point.cuh"
 
 __global__ void getPublicKeyByPrivateKeyKernel(Point *output,
                                                const u64 privateKey[4]);

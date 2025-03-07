@@ -3,15 +3,15 @@
 
 # Compiler settings
 CXX = g++
-NVCC = nvcc
+NVCC = "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8\bin\nvcc.exe"
 CXXFLAGS = -O2 -Iinclude -I"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.8/include"
 NVCCFLAGS = -O2 -Iinclude -I"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.8/include" -gencode=arch=compute_50,code=sm_50
 LFLAGS = -L"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.8/lib/x64" -lcudart
+OBJDIR = obj
 
 # Source files
 SOURCES = main.cpp src/bit_cuda_ecc.cu src/ecc.cu
-OBJECTS = $(SOURCES:.cpp=.o)
-OBJECTS := $(OBJECTS:.cu=.o)
+OBJECTS = $(patsubst %.cpp,$(OBJDIR)/%.o,$(filter %.cpp,$(SOURCES))) $(patsubst %.cu,$(OBJDIR)/%.o,$(filter %.cu,$(SOURCES)))
 
 # Target
 TARGET = bit_cuda_ecc.exe
@@ -22,13 +22,16 @@ all: $(TARGET)
 $(TARGET): $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LFLAGS) -o $(TARGET)
 
-%.o: %.cpp
+$(OBJDIR)/%.o: %.cpp
+	-@if not exist $(OBJDIR) mkdir $(OBJDIR) 2>NUL
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-%.o: %.cu
+$(OBJDIR)/%.o: %.cu
+	-@if not exist $(OBJDIR) mkdir $(OBJDIR) 2>NUL
 	$(NVCC) $(NVCCFLAGS) -c $< -o $@
 
 clean:
-	del *.o *.exe src\*.o
+	if exist $(OBJDIR) del /S /Q $(OBJDIR)\*.o 2>NUL
+	del *.exe 2>NUL
 
 .PHONY: all clean

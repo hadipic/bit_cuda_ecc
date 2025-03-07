@@ -1,4 +1,4 @@
-#include "curve/secp256k1.cuh"
+#include "secp256k1.cuh"
 #include "ecc.cuh"
 #include <cuda.h>
 #include <cuda_runtime_api.h>

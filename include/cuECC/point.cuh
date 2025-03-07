@@ -1,7 +1,7 @@
 #ifndef _POINT_CUH
 #define _POINT_CUH
 
-#include "../uint/u256.cuh"
+#include "u256.cuh"
 #include "fp.cuh"
 
 typedef struct {

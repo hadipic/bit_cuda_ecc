@@ -1,7 +1,7 @@
 #ifndef _FP_CUF
 #define _FP_CUF
 
-#include "../uint/u256.cuh"
+#include "u256.cuh"
 
 __forceinline__ __device__ void fpAdd(u64 output[4], const u64 a[4],
                                       const u64 b[4], const u64 p[4]) {
